@@ -1,7 +1,8 @@
 
 #import <Cocoa/Cocoa.h>
+#import "QCDragDropView.h"
 
-@interface QCAppDelegate : NSObject <NSApplicationDelegate, NSTableViewDataSource, NSTableViewDelegate, NSToolbarDelegate> {
+@interface QCAppDelegate : NSObject <NSApplicationDelegate, NSTableViewDataSource, NSTableViewDelegate, NSToolbarDelegate, NSWindowDelegate> {
 	NSWindow * _window;
 	
 	NSSound * _glass;
@@ -28,6 +29,14 @@
 	NSTextField * _concurrencyLabel;
 	NSStepper * _concurrencyStepper;
 	
+	//quick drop area
+	NSOperationQueue * _quickQueue;
+	QCDragDropView * _quickDropView;
+	NSView * _quickDropViewContainer;
+	NSTextField * _quickDropLabel;
+	NSProgressIndicator * _quickDropProgress;
+	NSImageView * _quickDropBGImage;
+	
 	//output area
 	NSMenuItem * _selectedType;
 	NSMenuItem * _selectedContainer;
@@ -51,7 +60,7 @@
 }
 
 @property (assign) IBOutlet NSWindow * window;
-@property (assign) IBOutlet NSProgressIndicator * totalProgress;
+//@property (assign) IBOutlet NSProgressIndicator * totalProgress;
 @property (assign) IBOutlet NSScrollView * tableScrollView;
 @property (assign) IBOutlet NSTableView * tableView;
 @property (assign) IBOutlet NSPopUpButton * containerFormat;
@@ -61,7 +70,7 @@
 @property (assign) IBOutlet NSButton * outputChooseDir;
 @property (assign) IBOutlet NSButton * revealOutputDir;
 @property (assign) IBOutlet NSTextField * outputDir;
-@property (assign) IBOutlet NSTextField * totalProgressLabel;
+//@property (assign) IBOutlet NSTextField * totalProgressLabel;
 @property (assign) IBOutlet NSButton * removeItemsFromQueue;
 @property (assign) IBOutlet NSTextField * channelsLabel;
 @property (assign) IBOutlet NSTextField * channelsCountLabel;
@@ -71,6 +80,11 @@
 @property (assign) IBOutlet NSButton * audioAlerts;
 @property (assign) IBOutlet NSTextField * concurrencyLabel;
 @property (assign) IBOutlet NSStepper * concurrencyStepper;
+@property (assign) IBOutlet NSTextField * quickDropLabel;
+@property (nonatomic,retain) IBOutlet NSProgressIndicator * quickDropProgress;
+@property (assign) IBOutlet QCDragDropView * quickDropView;
+@property (nonatomic,retain) IBOutlet NSView * quickDropViewContainer;
+@property (nonatomic,retain) IBOutlet NSImageView * quickDropBGImage;
 
 - (void) invalidateWorkQueue;
 

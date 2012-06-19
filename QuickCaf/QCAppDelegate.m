@@ -24,8 +24,20 @@
 @synthesize audioAlerts = _audioAlerts;
 @synthesize concurrencyLabel = _concurrencyLabel;
 @synthesize concurrencyStepper = _concurrencyStepper;
+@synthesize quickDropLabel = _quickDropLabel;
+@synthesize quickDropProgress = _quickDropProgress;
+@synthesize quickDropView = _quickDropView;
+@synthesize quickDropViewContainer = _quickDropViewContainer;
+@synthesize quickDropBGImage = _quickDropBGImage;
+
+- (void) windowWillClose:(NSNotification *) notification {
+	[[NSApplication sharedApplication] terminate:self];
+}
 
 - (void) applicationDidFinishLaunching:(NSNotification *) aNotification {
+	self.window.delegate = self;
+	NSNotificationCenter * nfc = [NSNotificationCenter defaultCenter];
+	
 	//setup sounds
 	_glass = [[NSSound soundNamed:@"Glass"] retain];
 	
@@ -33,6 +45,12 @@
 	_tableView.delegate = self;
 	_tableView.dataSource = self;
 	[_tableView registerForDraggedTypes:[NSArray arrayWithObjects:NSFilenamesPboardType,nil]];
+	
+	//setup quick dropts
+	[nfc addObserver:self selector:@selector(onQuickDrop:) name:QCDragDropViewDroppedFiles object:_quickDropView];
+	[_quickDropProgress removeFromSuperview];
+	_quickQueue = [[NSOperationQueue alloc] init];
+	[_quickQueue setMaxConcurrentOperationCount:1];
 	
 	//setup work queue
 	_workQueue = [[NSOperationQueue alloc] init];
@@ -289,6 +307,59 @@
 	[_dataFormat addItemsWithTitles:[info objectForKey:@"dataFormats"]];
 }
 
+- (void) onQuickDrop:(NSNotification *) notification {
+	NSArray * files = _quickDropView.droppedFiles;
+	if(files.count > 1) {
+		NSBeep();
+		return;
+	}
+	
+	NSString * file = [files objectAtIndex:0];
+	if(![_extensions containsObject:[file pathExtension]]) {
+		NSBeep();
+		return;
+	}
+	
+	[self invalidateQuickDrop];
+	[_quickDropViewContainer addSubview:_quickDropProgress];
+	[_quickDropProgress startAnimation:self];
+	//[_quickDropBGImage removeFromSuperview];
+	
+	NSMutableDictionary * info = [_formats objectForKey:[_targetFormat selectedItem].title];
+	
+	QCOperation * op = [[[QCOperation alloc] init] autorelease];
+	op.queue = _quickQueue;
+	op.isInQueue = TRUE;
+	[op setConversionInfo:[_formats objectForKey:[_targetFormat selectedItem].title]];
+	[op setConversionExtension:[_containerFormat selectedItem].title];
+	
+	NSInteger selectedDataFormatIndex = [[_dataFormat menu] indexOfItem:[_dataFormat selectedItem]];
+	NSString * df = [[info objectForKey:@"dataFormatArguments"] objectAtIndex:selectedDataFormatIndex];
+	[op setConversionDataFormat:df];
+	[op setConversionSampleRate:[_sampleRate stringValue]];
+	[op setConversionChannels:_channelsCountLabel.integerValue];
+	[op setFile:[files objectAtIndex:0]];
+	if(![_outputSameDir state]) [op setConversionOutputDirectory:[_outputDir stringValue]];
+	else [op setConversionOutputDirectory:nil];
+	
+	NSNotificationCenter * nfc = [NSNotificationCenter defaultCenter];
+	[nfc addObserver:self selector:@selector(onQuickDropComplete:) name:QCOperationComplete object:op];
+	
+	[_quickQueue addOperation:op];
+}
+
+- (void) invalidateQuickDrop {
+	NSRect frame = _quickDropViewContainer.frame;
+	NSRect cframe = _quickDropProgress.frame;
+	cframe.size.width = frame.size.width-1;
+	[_quickDropProgress setFrame:cframe];
+}
+
+- (void) onQuickDropComplete:(NSNotification *) notification {
+	if(_audioAlerts) [_glass play];
+	[_quickDropProgress removeFromSuperview];
+}
+
 - (IBAction) onDestinationSameAsSource:(id) sender {
 	if(_outputDir.isEnabled) {
 		[_outputDir setEnabled:FALSE];
@@ -299,7 +370,7 @@
 		[_outputChooseDir setEnabled:TRUE];
 		[_revealOutputDir setEnabled:TRUE];
 	}
-	//[self invalidateWorkQueue];
+	
 	[self invalidateOutputDirectory];
 }
 
@@ -500,6 +571,39 @@
 	[_workOperationsLock unlock];
 }
 
+- (void) invalidateChannels {
+	[self invalidateSettings];
+	if(!_settingsAreValid) return;
+	
+	//can't edit all UNSELECTED settings if the queue is running.
+	NSIndexSet * selectedRows = [_tableView selectedRowIndexes];
+	if(selectedRows.count < 1 && !_workQueue.isSuspended) return;
+	
+	//make sure there's at least 1 operation
+	[_workOperationsLock lock];
+	if(_workOperations.count < 1) {
+		[_workOperationsLock unlock];
+		return;
+	}
+	
+	//select which array of operations update
+	NSArray * workOperations = NULL;
+	if(selectedRows.count > 0) {
+		workOperations = [_workOperations objectsAtIndexes:selectedRows];
+	} else {
+		workOperations = _workOperations;
+	}
+	
+	//update the operations
+	for(QCOperation * operation in workOperations) {
+		if(operation.isExecuting || operation.isFinished) continue;
+		[operation setConversionChannels:[_channelsCountLabel integerValue]];
+		[operation invalidate];
+	}
+	
+	[_workOperationsLock unlock];
+}
+
 - (void) onOperationComplete:(NSNotification *) notification {
 	NSNotificationCenter * nfc = [NSNotificationCenter defaultCenter];
 	[nfc removeObserver:self name:QCOperationComplete object:notification.object];
@@ -579,7 +683,7 @@
 
 - (IBAction) onChannelStep:(id) sender {
 	[_channelsCountLabel setStringValue:[_channelsStepper stringValue]];
-	[self invalidateWorkQueue];
+	[self invalidateChannels];
 }
 
 - (IBAction) onToolbarPlay:(id) sender {

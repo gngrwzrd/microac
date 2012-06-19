@@ -63,7 +63,7 @@ NSString * QCOperationQueueSuspendChange = @"QCOperationQueueSuspendChange";
 	
 	//assemble output dir
 	if(_conversionOutputDirectory.length > 0) {
-		outFile = [NSString stringWithFormat:@"%@/%@%@", _conversionOutputDirectory, fileNameNoExtension, newExtension];
+		outFile = [NSString stringWithFormat:@"%@/%@%@%@", _conversionOutputDirectory, fileNameNoExtension, @"_converted", newExtension];
 	} else {
 		outFile = [NSString stringWithFormat:@"%@%@%@", fileNameNoExtension2, @"_converted", newExtension];
 	}

@@ -32,6 +32,8 @@
 		07099D3B158EBE2400C2F935 /* warning_16.png in Resources */ = {isa = PBXBuildFile; fileRef = 07099D2A158EBE2400C2F935 /* warning_16.png */; };
 		07549F4C158EBFBF00C10318 /* QCOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 07549F48158EBF9600C10318 /* QCOperation.m */; };
 		07549F4D158EBFC000C10318 /* QCTableCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 07549F4A158EBF9600C10318 /* QCTableCellView.m */; };
+		07FB01A215904A6E00961BBA /* quickDrop.png in Resources */ = {isa = PBXBuildFile; fileRef = 07FB01A115904A6E00961BBA /* quickDrop.png */; };
+		07FB01A615905F5E00961BBA /* QCDragDropView.m in Sources */ = {isa = PBXBuildFile; fileRef = 07FB01A515905DB000961BBA /* QCDragDropView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,10 +42,10 @@
 		07099D00158EBD5E00C2F935 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		07099D01158EBD5E00C2F935 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		07099D02158EBD5E00C2F935 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		07099D05158EBD5E00C2F935 /* MicroAC-Info.plist */ = {isa = PBXFileReference; path = "MicroAC-Info.plist"; sourceTree = "<group>"; };
+		07099D05158EBD5E00C2F935 /* MicroAC-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MicroAC-Info.plist"; sourceTree = "<group>"; };
 		07099D07158EBD5E00C2F935 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		07099D09158EBD5E00C2F935 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		07099D0B158EBD5E00C2F935 /* MicroAC-Prefix.pch */ = {isa = PBXFileReference; path = "MicroAC-Prefix.pch"; sourceTree = "<group>"; };
+		07099D0B158EBD5E00C2F935 /* MicroAC-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MicroAC-Prefix.pch"; sourceTree = "<group>"; };
 		07099D0D158EBD5E00C2F935 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
 		07099D0F158EBD5E00C2F935 /* QCAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QCAppDelegate.h; sourceTree = "<group>"; };
 		07099D10158EBD5E00C2F935 /* QCAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = QCAppDelegate.m; sourceTree = "<group>"; };
@@ -69,6 +71,10 @@
 		07549F48158EBF9600C10318 /* QCOperation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = QCOperation.m; sourceTree = "<group>"; };
 		07549F49158EBF9600C10318 /* QCTableCellView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QCTableCellView.h; sourceTree = "<group>"; };
 		07549F4A158EBF9600C10318 /* QCTableCellView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = QCTableCellView.m; sourceTree = "<group>"; };
+		07FB01A115904A6E00961BBA /* quickDrop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = quickDrop.png; sourceTree = "<group>"; };
+		07FB01A415905DB000961BBA /* QCDragDropView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QCDragDropView.h; sourceTree = "<group>"; };
+		07FB01A515905DB000961BBA /* QCDragDropView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = QCDragDropView.m; sourceTree = "<group>"; };
+		07FB01A71590E08400961BBA /* MicroAC.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = MicroAC.entitlements; path = ../MicroAC.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,7 +138,9 @@
 		07099D04158EBD5E00C2F935 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				07FB01A71590E08400961BBA /* MicroAC.entitlements */,
 				07099D12158EBD5E00C2F935 /* MainMenu.xib */,
+				07FB01A115904A6E00961BBA /* quickDrop.png */,
 				07099D05158EBD5E00C2F935 /* MicroAC-Info.plist */,
 				07099D06158EBD5E00C2F935 /* InfoPlist.strings */,
 				07099D0C158EBD5E00C2F935 /* Credits.rtf */,
@@ -161,6 +169,7 @@
 		07549F4E158EC4AF00C10318 /* Headers */ = {
 			isa = PBXGroup;
 			children = (
+				07FB01A415905DB000961BBA /* QCDragDropView.h */,
 				07099D0F158EBD5E00C2F935 /* QCAppDelegate.h */,
 				07549F47158EBF9600C10318 /* QCOperation.h */,
 				07549F49158EBF9600C10318 /* QCTableCellView.h */,
@@ -175,6 +184,7 @@
 				07099D10158EBD5E00C2F935 /* QCAppDelegate.m */,
 				07549F48158EBF9600C10318 /* QCOperation.m */,
 				07549F4A158EBF9600C10318 /* QCTableCellView.m */,
+				07FB01A515905DB000961BBA /* QCDragDropView.m */,
 				07099D09158EBD5E00C2F935 /* main.m */,
 			);
 			name = Source;
@@ -252,6 +262,7 @@
 				07099D39158EBE2400C2F935 /* tick_16.png in Resources */,
 				07099D3A158EBE2400C2F935 /* Trash Empty.png in Resources */,
 				07099D3B158EBE2400C2F935 /* warning_16.png in Resources */,
+				07FB01A215904A6E00961BBA /* quickDrop.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -266,6 +277,7 @@
 				07099D11158EBD5E00C2F935 /* QCAppDelegate.m in Sources */,
 				07549F4C158EBFBF00C10318 /* QCOperation.m in Sources */,
 				07549F4D158EBFC000C10318 /* QCTableCellView.m in Sources */,
+				07FB01A615905F5E00961BBA /* QCDragDropView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -354,7 +366,9 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "QuickCaf/MicroAC-Prefix.pch";
 				INFOPLIST_FILE = "QuickCaf/MicroAC-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = MicroAC;
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -365,7 +379,9 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "QuickCaf/MicroAC-Prefix.pch";
 				INFOPLIST_FILE = "QuickCaf/MicroAC-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = MicroAC;
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
