@@ -35,14 +35,10 @@
 }
 
 - (void) invalidate {
-	
-	Boolean updated = false;
-	
 	[_warning setToolTip:@"Output settings are invalid for this file"];
 	[_check setToolTip:@"Finished successfully"];
 	
 	if(_validSettings) {
-		updated = true;
 		[self addSubview:_warning];
 		[_progress stopAnimation:self];
 		[_progress removeFromSuperview];
@@ -51,7 +47,6 @@
 	}
 	
 	if(!_validSettings) {
-		updated = true;
 		[self addSubview:_warning];
 		[_customLabel removeFromSuperview];
 		[_progress stopAnimation:self];
@@ -61,7 +56,6 @@
 	}
 	
 	if(_operation.isExecuting) {
-		updated = true;
 		[self addSubview:_progress];
 		[_progress startAnimation:self];
 		[_warning removeFromSuperview];
@@ -71,7 +65,6 @@
 	}
 	
 	if(!_operation.isExecuting && _validSettings) {
-		updated = true;
 		[_progress stopAnimation:self];
 		[_progress removeFromSuperview];
 		[self addSubview:_customLabel];
@@ -88,7 +81,6 @@
 	}
 	
 	if(_operation.isFinished && !_operation.isCancelled) {
-		updated = true;
 		[self addSubview:_check];
 		[_warning removeFromSuperview];
 		[_customLabel removeFromSuperview];
@@ -98,8 +90,6 @@
 	}
 	
 	[self.imageView setImage:[[NSWorkspace sharedWorkspace] iconForFile:_operation.file]];
-	
-	//set labels
 	[_outputLabel setStringValue:[_operation outputLabel]];
 	[_formatLabel setStringValue:[_operation shortFormatLabel]];
 	
@@ -129,7 +119,6 @@
 	
 	self.textField.stringValue = [_operation.file lastPathComponent];
 	[self invalidate];
-	[self updateFrames];
 }
 
 - (void) onQueueSuspendChange:(NSNotification *) notification {
@@ -143,13 +132,11 @@
 - (void) onOperationSettingsValid:(NSNotification *) notification {
 	_validSettings = true;
 	[self invalidate];
-	[self updateFrames];
 }
 
 - (void) onOperationSettingsInvalid:(NSNotification *) notification {
 	_validSettings = false;
 	[self invalidate];
-	[self updateFrames];
 }
 
 - (void) onOperationStart:(NSNotification *) notification {

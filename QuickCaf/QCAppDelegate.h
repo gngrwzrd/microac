@@ -22,8 +22,8 @@
 	//queue area
 	NSScrollView * _tableScrollView;
 	NSTableView * _tableView;
-	NSProgressIndicator * _totalProgress;
-	NSTextField * _totalProgressLabel;
+//	NSProgressIndicator * _totalProgress;
+//	NSTextField * _totalProgressLabel;
 	NSButton * _removeItemsFromQueue;
 	NSTextField * _concurrencyLabel;
 	NSStepper * _concurrencyStepper;
@@ -43,7 +43,7 @@
 	
 	//channel
 	NSTextField * _channelsLabel;
-	NSTextField * _channelsField;
+	NSTextField * _channelsCountLabel;
 	NSStepper   * _channelsStepper;
 	
 	//options
@@ -64,7 +64,7 @@
 @property (assign) IBOutlet NSTextField * totalProgressLabel;
 @property (assign) IBOutlet NSButton * removeItemsFromQueue;
 @property (assign) IBOutlet NSTextField * channelsLabel;
-@property (assign) IBOutlet NSTextField * channelsField;
+@property (assign) IBOutlet NSTextField * channelsCountLabel;
 @property (assign) IBOutlet NSStepper * channelsStepper;
 @property (assign) IBOutlet NSPopUpButton * targetFormat;
 @property (assign) IBOutlet NSToolbarItem * convertButton;

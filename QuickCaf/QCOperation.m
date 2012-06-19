@@ -17,6 +17,7 @@ NSString * QCOperationQueueSuspendChange = @"QCOperationQueueSuspendChange";
 @synthesize conversionType = _conversionType;
 @synthesize conversionSampleRate = _conversionSampleRate;
 @synthesize conversionChannels = _conversionChannels;
+@synthesize conversionDataFormatLabel = _conversionDataFormatLabel;
 @synthesize queue = _queue;
 @synthesize isInQueue = _isInQueue;
 
@@ -73,8 +74,8 @@ NSString * QCOperationQueueSuspendChange = @"QCOperationQueueSuspendChange";
 	[arguments addObject:@"-f"];
 	[arguments addObject:[_conversionInfo objectForKey:@"fileFormat"]];
 	[arguments addObject:@"-d"];
-	//[arguments addObject:[NSString stringWithFormat:@"%@@%@",_conversionDataFormat, _conversionSampleRate]];
-	[arguments addObject:[NSString stringWithFormat:@"%@",_conversionDataFormat]];
+	[arguments addObject:[NSString stringWithFormat:@"%@@%@",_conversionDataFormat, _conversionSampleRate]];
+	//[arguments addObject:[NSString stringWithFormat:@"%@",_conversionDataFormat]];
 	if(_conversionChannels > 0) {
 		[arguments addObject:@"-c"];
 		[arguments addObject:[NSString stringWithFormat:@"%li",_conversionChannels]];
@@ -149,7 +150,7 @@ NSString * QCOperationQueueSuspendChange = @"QCOperationQueueSuspendChange";
 }
 
 - (NSString *) outputLabel {
-	NSLog(@"output: %@",_conversionOutputDirectory);
+	//NSLog(@"output: %@",_conversionOutputDirectory);
 	if(_conversionOutputDirectory.length > 0) {
 		return [NSString stringWithFormat:@"Save To: %@",_conversionOutputDirectory];
 	}

@@ -12,12 +12,12 @@
 @synthesize outputChooseDir = _outputChooseDir;
 @synthesize outputDir = _outputDir;
 @synthesize outputSameDir = _outputSameDir;
-@synthesize totalProgress = _totalProgress;
+//@synthesize totalProgress = _totalProgress;
 @synthesize revealOutputDir = _revealOutputDir;
-@synthesize totalProgressLabel = _totalProgressLabel;
+//@synthesize totalProgressLabel = _totalProgressLabel;
 @synthesize removeItemsFromQueue = _removeItemsFromQueue;
 @synthesize channelsLabel = _channelsLabel;
-@synthesize channelsField = _channelsField;
+@synthesize channelsCountLabel = _channelsCountLabel;
 @synthesize channelsStepper = _channelsStepper;
 @synthesize targetFormat = _targetFormat;
 @synthesize convertButton = _convertButton;
@@ -59,8 +59,8 @@
 	[tmp setObject:@"3gp" forKey:@"postfix"];
 	[tmp setObject:@"3gpp" forKey:@"fileFormat"];
 	[tmp setObject:[NSArray arrayWithObjects:@".3gp", nil] forKey:@"extensions"];
-	[tmp setObject:[NSArray arrayWithObjects:@"Qclp", @"aac", @"aace", @"aacf",@"aach", @"aacl", @"aacp", @"samr",nil] forKey:@"dataFormats"];
-	[tmp setObject:[NSArray arrayWithObjects:@"Qclp", @"aac", @"aace", @"aacf",@"aach", @"aacl", @"aacp", @"samr",nil] forKey:@"dataFormatArguments"];
+	[tmp setObject:[NSArray arrayWithObjects:@"aac", @"aace", @"aacf",@"aach", @"aacl", @"aacp",nil] forKey:@"dataFormats"];
+	[tmp setObject:[NSArray arrayWithObjects:@"aac", @"aace", @"aacf",@"aach", @"aacl", @"aacp",nil] forKey:@"dataFormatArguments"];
 	[_formats setObject:tmp forKey:[tmp objectForKey:@"description"]];
 	[_targetFormats addObject:tmp];
 	
@@ -70,23 +70,26 @@
 	[tmp setObject:@"3gp2" forKey:@"postfix"];
 	[tmp setObject:@"3gp2" forKey:@"fileFormat"];
 	[tmp setObject:[NSArray arrayWithObjects:@".3gp2", nil] forKey:@"extensions"];
-	[tmp setObject:[NSArray arrayWithObjects:@"Qclp",@"aac", @"aace", @"aacf",@"aach", @"aacl", @"aacp", @"samr", nil] forKey:@"dataFormats"];
-	[tmp setObject:[NSArray arrayWithObjects:@"Qclp",@"aac", @"aace", @"aacf",@"aach", @"aacl", @"aacp", @"samr", nil] forKey:@"dataFormatArguments"];
+	[tmp setObject:[NSArray arrayWithObjects:@"aac", @"aace", @"aacf",@"aach", @"aacl", @"aacp", nil] forKey:@"dataFormats"];
+	[tmp setObject:[NSArray arrayWithObjects:@"aac", @"aace", @"aacf",@"aach", @"aacl", @"aacp", nil] forKey:@"dataFormatArguments"];
 	[_formats setObject:tmp forKey:[tmp objectForKey:@"description"]];
 	[_targetFormats addObject:tmp];
 	
 	//adts
+	/*
 	tmp = [NSMutableDictionary dictionary];
 	[tmp setObject:@"AAC ADTS" forKey:@"description"];
 	[tmp setObject:@"adts" forKey:@"postfix"];
 	[tmp setObject:@"adts" forKey:@"fileFormat"];
 	[tmp setObject:[NSArray arrayWithObjects:@".aac", @".adts", nil] forKey:@"extensions"];
-	[tmp setObject:[NSArray arrayWithObjects:@"Qclp",@"aac", @"aace", @"aacf", @"aach", @"aacl", @"aacp", @"samr", nil] forKey:@"dataFormats"];
-	[tmp setObject:[NSArray arrayWithObjects:@"Qclp",@"aac", @"aace", @"aacf", @"aach", @"aacl", @"aacp", @"samr", nil] forKey:@"dataFormatArguments"];
+	[tmp setObject:[NSArray arrayWithObjects:@"Qclp",@"aac", @"aace", @"aacf", @"aach", @"aacl", @"aacp", nil] forKey:@"dataFormats"];
+	[tmp setObject:[NSArray arrayWithObjects:@"Qclp",@"aac", @"aace", @"aacf", @"aach", @"aacl", @"aacp", nil] forKey:@"dataFormatArguments"];
 	[_formats setObject:tmp forKey:[tmp objectForKey:@"description"]];
 	[_targetFormats addObject:tmp];
+	*/
 	
 	//ac-3
+	/*
 	tmp = [NSMutableDictionary dictionary];
 	[tmp setObject:@"AC3" forKey:@"description"];
 	[tmp setObject:@"ac3" forKey:@"postfix"];
@@ -96,6 +99,7 @@
 	[tmp setObject:[NSArray arrayWithObjects:@"ac-3",nil]forKey:@"dataFormatArguments"];
 	[_formats setObject:tmp forKey:[tmp objectForKey:@"description"]];
 	[_targetFormats addObject:tmp];
+	*/
 	
 	//AIFC
 	tmp = [NSMutableDictionary dictionary];
@@ -103,15 +107,12 @@
 	[tmp setObject:@"aifc" forKey:@"postfix"];
 	[tmp setObject:@"AIFC" forKey:@"fileFormat"];
 	[tmp setObject:[NSArray arrayWithObjects:@".aifc",@".aiff",@".aif",nil] forKey:@"extensions"];
+	[tmp setObject:[NSArray arrayWithObjects:
+	@"ima4",@"PCM I8",@"PCM UI8",@"PCM BEI16",@"PCM BEI24",
+	@"PCM BEI32",@"PCM BEF32",@"PCM BEF64",nil] forKey:@"dataFormats"];
 	
 	[tmp setObject:[NSArray arrayWithObjects:
-	@"PCM I8", @"PCM UI8" , @"PCM BEI16", @"PCM BEI24", @"PCM BEI32", @"PCM BEF32", @"PCM BEF64",
-	@"ulaw",@"alaw", @"MAC3", @"MAC6", @"ima4", @"QDMC", @"QDM2", @"Qclp", @"agsm",
-	nil] forKey:@"dataFormats"];
-	
-	[tmp setObject:[NSArray arrayWithObjects:
-	@"I8", @"UI8" , @"BEI16", @"BEI24", @"BEI32", @"BEF32", @"BEF64",
-	@"ulaw",@"alaw", @"MAC3", @"MAC6", @"ima4", @"QDMC", @"QDM2", @"Qclp", @"agsm",
+	@"ima4",@"I8", @"UI8" , @"BEI16", @"BEI24", @"BEI32", @"BEF32", @"BEF64",
 	nil] forKey:@"dataFormatArguments"];
 	
 	[_formats setObject:tmp forKey:[tmp objectForKey:@"description"]];
@@ -129,6 +130,7 @@
 	[_targetFormats addObject:tmp];
 	
 	//AMR
+	/*
 	tmp = [NSMutableDictionary dictionary];
 	[tmp setObject:@"AMR" forKey:@"description"];
 	[tmp setObject:@"amr" forKey:@"postfix"];
@@ -138,6 +140,7 @@
 	[tmp setObject:[NSArray arrayWithObjects:@"samr",nil] forKey:@"dataFormatArguments"];
 	[_formats setObject:tmp forKey:[tmp objectForKey:@"description"]];
 	[_targetFormats addObject:tmp];
+	*/
 	
 	//m4af
 	tmp = [NSMutableDictionary dictionary];
@@ -145,8 +148,8 @@
 	[tmp setObject:@"m4af" forKey:@"postfix"];
 	[tmp setObject:@"m4af" forKey:@"fileFormat"];
 	[tmp setObject:[NSArray arrayWithObjects:@".m4a",@".m4r",nil] forKey:@"extensions"];
-	[tmp setObject:[NSArray arrayWithObjects:@"aac", @"aace", @"aacf", @"aach", @"aacl", @"aacp",@"ac-3", @"alac",nil] forKey:@"dataFormats"];
-	[tmp setObject:[NSArray arrayWithObjects:@"aac", @"aace", @"aacf", @"aach", @"aacl", @"aacp",@"ac-3", @"alac",nil] forKey:@"dataFormatArguments"];
+	[tmp setObject:[NSArray arrayWithObjects:@"aac", @"aace", @"aacf", @"aach", @"aacl", @"aacp",nil] forKey:@"dataFormats"];
+	[tmp setObject:[NSArray arrayWithObjects:@"aac", @"aace", @"aacf", @"aach", @"aacl", @"aacp",nil] forKey:@"dataFormatArguments"];
 	[_formats setObject:tmp forKey:[tmp objectForKey:@"description"]];
 	[_targetFormats addObject:tmp];
 	
@@ -169,27 +172,22 @@
 	[tmp setObject:[NSArray arrayWithObjects:@".caf", nil] forKey:@"extensions"];
 	
 	[tmp setObject:[NSArray arrayWithObjects:
-	@"mp1", @"mp2",@"mp3", @"AC-3", @"QDMC", @"QDM2",
-	@"Qclp", @"Qclq", @"aac", @"aace", @"aacf", @"aach",
-	@"aacl", @"aacp", @"ac-3", @"alac", @"alaw", @"dvi8", @"ilbc", @"ima4",
+	@"aac", @"aace", @"aacf", @"aach", @"aacl", @"aacp", @"ilbc", @"ima4",
 	@"PCM I8", @"PCM BEI16", @"PCM BEI24", @"PCM BEI32", @"PCM BEF32", @"PCM BEF64",
 	@"PCM LEI16", @"PCM LEI24", @"PCM LEI32", @"PCM LEF32", @"PCM LEF64",
-	@"paac", @"samr", @"ulaw",
 	nil] forKey:@"dataFormats"];
 	
 	[tmp setObject:[NSArray arrayWithObjects:
-		@"mp1", @"mp2",@"mp3", @"AC-3", @"QDMC", @"QDM2",
-		@"Qclp", @"Qclq", @"aac", @"aace", @"aacf", @"aach",
-		@"aacl", @"aacp", @"ac-3", @"alac", @"alaw", @"dvi8", @"ilbc", @"ima4",
-		@"I8", @"BEI16", @"BEI24", @"BEI32", @"BEF32", @"BEF64",
-		@"LEI16", @"LEI24", @"LEI32", @"LEF32", @"LEF64",
-		@"paac", @"samr", @"ulaw",
+	@"aac", @"aace", @"aacf", @"aach",@"aacl", @"aacp", @"ilbc", @"ima4",
+	@"I8", @"BEI16", @"BEI24", @"BEI32", @"BEF32", @"BEF64",
+	@"LEI16", @"LEI24", @"LEI32", @"LEF32", @"LEF64",
 	nil] forKey:@"dataFormatArguments"];
 	
 	[_formats setObject:tmp forKey:[tmp objectForKey:@"description"]];
 	[_targetFormats addObject:tmp];
 	
 	//MPEG1
+	/*
 	tmp = [NSMutableDictionary dictionary];
 	[tmp setObject:@"MPEG-1" forKey:@"description"];
 	[tmp setObject:@"mpeg1" forKey:@"postfix"];
@@ -199,8 +197,10 @@
 	[tmp setObject:[NSArray arrayWithObjects:@"mp1",nil] forKey:@"dataFormatArguments"];
 	[_formats setObject:tmp forKey:[tmp objectForKey:@"description"]];
 	[_targetFormats addObject:tmp];
+	*/
 	
 	//MPEG2
+	/*
 	tmp = [NSMutableDictionary dictionary];
 	[tmp setObject:@"MPEG-2" forKey:@"description"];
 	[tmp setObject:@"mpeg2" forKey:@"postfix"];
@@ -210,8 +210,10 @@
 	[tmp setObject:[NSArray arrayWithObjects:@"mp2",nil] forKey:@"dataFormatArguments"];
 	[_formats setObject:tmp forKey:[tmp objectForKey:@"description"]];
 	[_targetFormats addObject:tmp];
+	*/
 	
 	//MPEG3
+	/*
 	tmp = [NSMutableDictionary dictionary];
 	[tmp setObject:@"MPEG-3" forKey:@"description"];
 	[tmp setObject:@"mpeg3" forKey:@"postfix"];
@@ -221,6 +223,7 @@
 	[tmp setObject:[NSArray arrayWithObjects:@"mp3",nil] forKey:@"dataFormatArguments"];
 	[_formats setObject:tmp forKey:[tmp objectForKey:@"description"]];
 	[_targetFormats addObject:tmp];
+	*/
 	
 	//MPEG4
 	tmp = [NSMutableDictionary dictionary];
@@ -228,12 +231,13 @@
 	[tmp setObject:@"mp4f" forKey:@"postfix"];
 	[tmp setObject:@"mp4f" forKey:@"fileFormat"];
 	[tmp setObject:[NSArray arrayWithObjects:@".mp4", nil] forKey:@"extensions"];
-	[tmp setObject:[NSArray arrayWithObjects:@"aac", @"aace", @"aacf", @"aach", @"aacl", @"aacp", @"ac-3",nil] forKey:@"dataFormats"];
-	[tmp setObject:[NSArray arrayWithObjects:@"aac", @"aace", @"aacf", @"aach", @"aacl", @"aacp", @"ac-3",nil] forKey:@"dataFormatArguments"];
+	[tmp setObject:[NSArray arrayWithObjects:@"aac", @"aace", @"aacf", @"aach", @"aacl", @"aacp", nil] forKey:@"dataFormats"];
+	[tmp setObject:[NSArray arrayWithObjects:@"aac", @"aace", @"aacf", @"aach", @"aacl", @"aacp", nil] forKey:@"dataFormatArguments"];
 	[_formats setObject:tmp forKey:[tmp objectForKey:@"description"]];
 	[_targetFormats addObject:tmp];
 	
 	//NeXT
+	/*
 	tmp = [NSMutableDictionary dictionary];
 	[tmp setObject:@"NeXT/Sun" forKey:@"description"];
 	[tmp setObject:@"next" forKey:@"postfix"];
@@ -243,7 +247,9 @@
 	[tmp setObject:[NSArray arrayWithObjects:@"I8", @"BEI16", @"BEI24", @"BEI32",@"BEF32", @"BEF64", @"ulaw",nil] forKey:@"dataFormatArguments"];
 	[_formats setObject:tmp forKey:[tmp objectForKey:@"description"]];
 	[_targetFormats addObject:tmp];
+	*/
 	
+	/*
 	//Sound Designer 2
 	tmp = [NSMutableDictionary dictionary];
 	[tmp setObject:@"Sound Designer 2" forKey:@"description"];
@@ -254,6 +260,7 @@
 	[tmp setObject:[NSArray arrayWithObjects:@"I8", @"BEI16", @"BEI24", @"BEI32",nil] forKey:@"dataFormatArguments"];
 	[_formats setObject:tmp forKey:[tmp objectForKey:@"description"]];
 	[_targetFormats addObject:tmp];
+	*/
 	
 	//WAVE
 	tmp = [NSMutableDictionary dictionary];
@@ -292,7 +299,8 @@
 		[_outputChooseDir setEnabled:TRUE];
 		[_revealOutputDir setEnabled:TRUE];
 	}
-	[self invalidateWorkQueue];
+	//[self invalidateWorkQueue];
+	[self invalidateOutputDirectory];
 }
 
 - (IBAction) onTypeChosen:(id) sender {
@@ -374,9 +382,10 @@
 		[operation setConversionType:[_targetFormat stringValue]];
 		NSString * df = [[info objectForKey:@"dataFormatArguments"] objectAtIndex:selectedDataFormatIndex];
 		[operation setConversionDataFormat:df];
+		[operation setConversionDataFormatLabel:[_dataFormat selectedItem] .title];
 		[operation setConversionExtension:[_containerFormat selectedItem].title];
 		[operation setConversionSampleRate:[_sampleRate stringValue]];
-		[operation setConversionChannels:[_channelsField integerValue]];
+		[operation setConversionChannels:[_channelsCountLabel integerValue]];
 		if(![_outputSameDir state]) [operation setConversionOutputDirectory:[_outputDir stringValue]];
 		else [operation setConversionOutputDirectory:nil];
 		[operation invalidate];
@@ -407,16 +416,6 @@
 		return;
 	}
 	
-	/*
-	if(selectedRows.count == 1) {
-		QCOperation * op = [_workOperations objectAtIndex:selectedRows.firstIndex];
-		if(op.isFinished) {
-			NSBeep();
-			return;
-		}
-	}
-	*/
-	
 	//get dictionary lookup for selected type
 	NSInteger selectedDataFormatIndex = 0;
 	NSMutableDictionary * info = [_formats objectForKey:[_targetFormat selectedItem].title];
@@ -437,9 +436,10 @@
 		[operation setConversionType:[_targetFormat stringValue]];
 		NSString * df = [[info objectForKey:@"dataFormatArguments"] objectAtIndex:selectedDataFormatIndex];
 		[operation setConversionDataFormat:df];
+		[operation setConversionDataFormatLabel:[_dataFormat selectedItem].title];
 		[operation setConversionExtension:[_containerFormat selectedItem].title];
 		[operation setConversionSampleRate:[_sampleRate stringValue]];
-		[operation setConversionChannels:[_channelsField integerValue]];
+		[operation setConversionChannels:[_channelsCountLabel integerValue]];
 		if(![_outputSameDir state]) {
 			if(_outputDir.stringValue.length < 1) {
 				[operation setConversionOutputDirectory:[[_outputDir cell] placeholderString]];
@@ -459,6 +459,47 @@
 	[_workOperationsLock unlock];
 }
 
+- (void) invalidateOutputDirectory {
+	[self invalidateSettings];
+	if(!_settingsAreValid) return;
+	
+	//can't edit all UNSELECTED settings if the queue is running.
+	NSIndexSet * selectedRows = [_tableView selectedRowIndexes];
+	if(selectedRows.count < 1 && !_workQueue.isSuspended) return;
+	
+	//make sure there's at least 1 operation
+	[_workOperationsLock lock];
+	if(_workOperations.count < 1) {
+		[_workOperationsLock unlock];
+		return;
+	}
+	
+	//select which array of operations update
+	NSArray * workOperations = NULL;
+	if(selectedRows.count > 0) {
+		workOperations = [_workOperations objectsAtIndexes:selectedRows];
+	} else {
+		workOperations = _workOperations;
+	}
+	
+	//update the operations
+	for(QCOperation * operation in workOperations) {
+		if(operation.isExecuting || operation.isFinished) continue;
+		if(![_outputSameDir state]) {
+			if(_outputDir.stringValue.length < 1) {
+				[operation setConversionOutputDirectory:[[_outputDir cell] placeholderString]];
+			} else {
+				[operation setConversionOutputDirectory:[_outputDir stringValue]];
+			}
+		} else {
+			[operation setConversionOutputDirectory:nil];
+		}
+		[operation invalidate];
+	}
+	
+	[_workOperationsLock unlock];
+}
+
 - (void) onOperationComplete:(NSNotification *) notification {
 	NSNotificationCenter * nfc = [NSNotificationCenter defaultCenter];
 	[nfc removeObserver:self name:QCOperationComplete object:notification.object];
@@ -466,7 +507,7 @@
 }
 
 - (void) onOperationStart:(NSNotification *) notification {
-	[_totalProgressLabel setStringValue:@"Running..."];
+	//[_totalProgressLabel setStringValue:@"Running..."];
 }
 
 - (void) updateTotalProgress {
@@ -477,17 +518,17 @@
 
 - (void) _onOperationComplete {
 	if(_reloadLater) [_reloadLater invalidate];
-	_reloadLater = [NSTimer scheduledTimerWithTimeInterval:.3 target:self selector:@selector(reloadTable:) userInfo:nil repeats:false];
+	_reloadLater = [NSTimer scheduledTimerWithTimeInterval:.1 target:self selector:@selector(reloadTable:) userInfo:nil repeats:false];
 }
 
 - (void) reloadTable:(NSTimer *) timer {
-	NSLog(@"workQueue.operationCount: %li",_workQueue.operationCount);
-	NSLog(@"tableView.numberOfRows: %li",_tableView.numberOfRows);
+	//NSLog(@"workQueue.operationCount: %li",_workQueue.operationCount);
+	//NSLog(@"tableView.numberOfRows: %li",_tableView.numberOfRows);
 	
 	if([_workQueue operationCount] < 1) {
 		[_workQueue setSuspended:TRUE];
 		if(_audioAlerts.state) [_glass play];
-		[_totalProgressLabel setStringValue:@"Stopped"];
+		//[_totalProgressLabel setStringValue:@"Stopped"];
 	}
 	
 	if(_reloadLater) {
@@ -519,7 +560,8 @@
 	[open beginSheetModalForWindow:self.window completionHandler:^(NSInteger result) {
 		if(result) {
 			[_outputDir setObjectValue:[[open directoryURL] path]];
-			[self invalidateWorkQueue];
+			//[self invalidateWorkQueue];
+			[self invalidateOutputDirectory];
 		}
 	}];
 }
@@ -536,7 +578,7 @@
 }
 
 - (IBAction) onChannelStep:(id) sender {
-	[_channelsField setStringValue:[_channelsStepper stringValue]];
+	[_channelsCountLabel setStringValue:[_channelsStepper stringValue]];
 	[self invalidateWorkQueue];
 }
 
@@ -735,6 +777,7 @@
 	NSIndexSet * indexes = [_tableView selectedRowIndexes];
 	
 	//no selection, update combo boxes back to what they were with no selections
+	/*
 	if(_selectedOperations && indexes.count < 1) {
 		[_targetFormat selectItemAtIndex:_noSelectionLastTypeIndex];
 		NSMutableDictionary * info = [_formats objectForKey:[_targetFormat selectedItem].title];
@@ -749,6 +792,7 @@
 		[_dataFormat selectItemAtIndex:_noSelectionLastDataFormatIndex];
 		if(_noSelectionLastDataFormatIndex > 0) [_dataFormat setEnabled:TRUE];
 	}
+	*/
 	
 	//1 item selected, update UI.
 	if(indexes.count == 1) {
@@ -762,7 +806,7 @@
 		
 		[_dataFormat removeAllItems];
 		[_dataFormat addItemsWithTitles:[[operation conversionInfo] objectForKey:@"dataFormats"]];
-		[_dataFormat selectItemWithTitle:[operation conversionDataFormat]];
+		[_dataFormat selectItemWithTitle:[operation conversionDataFormatLabel]];
 		
 		if([operation conversionOutputDirectory] && [operation conversionOutputDirectory].length > 0) {
 			[_outputDir setStringValue:[operation conversionOutputDirectory]];
@@ -779,11 +823,13 @@
 	}
 	
 	//update last NON SELECTION indexes
+	/*
 	if(!_selectedOperations || _selectedOperations.count < 1) {
 		_noSelectionLastContainerIndex = [_containerFormat indexOfSelectedItem];
 		_noSelectionLastDataFormatIndex = [_dataFormat indexOfSelectedItem];
 		_noSelectionLastTypeIndex = [_targetFormat indexOfSelectedItem];
 	}
+	*/
 	
 	//updated selected oprations
 	if(_selectedOperations) [_selectedOperations release];

@@ -1,0 +1,44 @@
+MicroAC is an audio converter for Core Audio formats for iOS and Mac OS X.
+
+It's a GUI version of the "afconvert" utility on Mac OS X. It supports most
+input formats and most output formats that afconvert supports.
+
+Features:
+-Drag And Drop
+-Concurrency control
+-Queueing & Requeueing
+-Sample Rate
+-Channels
+
+Formats:
+3gp (.3gp)
+  aac, aace, aacf, aach, aacl, aacp
+
+3gp2 (.3gp2)
+  aac, aace, aacf, aach, aacl, aacp
+
+AIFC (.aifc, .aiff, .aif)
+  ima4, PCM I8, PCM UI8, PCM BEI16,
+  PCM BEI24 PCM BEI32, PCM BEIF32, PCM BEIF64
+
+AIFF (.aiff, .aif)
+  PCM I8, PCM UI8, PCM BEI16, PCM BEI24 PCM BEI32
+
+Apple MPEG-4 Audio (.m4a, .m4r)
+  aac, aace, aacf, aach, aacl, aacp
+
+Apple MPEG-4 AudioBooks (.m4b)
+  aac, aace, aacf, aach, aacl, aacp
+
+CAFF (.caf)
+  aac, aace, aacf, aach, aacl, aacp, ilbc,
+  ima4, PCM I8, PCM BEI16, PCM BEI24 PCM BEI32,
+  PCM BEIF32, PCM BEIF64, PCM LEI16, PCM LEI32,
+  PCM LEF32, PCM LEF64
+
+MPEG-4 Audio (.mp4)
+  aac, aace, aacf, aach, aacl, aacp
+
+WAVE (.wav)
+  PCM I8, PCM BEI16, PCM BEI24 PCM BEI32, PCM BEIF32,
+  PCM BEIF64
