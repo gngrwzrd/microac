@@ -3,12 +3,12 @@
 	<data>
 		<int key="IBDocument.SystemTarget">1080</int>
 		<string key="IBDocument.SystemVersion">12A206j</string>
-		<string key="IBDocument.InterfaceBuilderVersion">2507</string>
+		<string key="IBDocument.InterfaceBuilderVersion">2546</string>
 		<string key="IBDocument.AppKitVersion">1172.1</string>
 		<string key="IBDocument.HIToolboxVersion">613.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">2507</string>
+			<string key="NS.object.0">2546</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
 			<string>NSBox</string>
@@ -2534,7 +2534,7 @@
 									<string key="NSFrame">{{19, 22}, {100, 17}}</string>
 									<reference key="NSSuperview" ref="372926126"/>
 									<reference key="NSWindow"/>
-									<reference key="NSNextKeyView" ref="440215939"/>
+									<reference key="NSNextKeyView"/>
 									<string key="NSReuseIdentifierKey">_NS:1551</string>
 									<bool key="NSEnabled">YES</bool>
 									<object class="NSTextFieldCell" key="NSCell" id="2147632">
@@ -2750,7 +2750,7 @@
 										<object class="NSComboTableView" key="NSTableView" id="506681865">
 											<reference key="NSNextResponder"/>
 											<int key="NSvFlags">274</int>
-											<string key="NSFrameSize">{13, 105}</string>
+											<string key="NSFrameSize">{13, 42}</string>
 											<reference key="NSSuperview"/>
 											<reference key="NSWindow"/>
 											<string key="NSReuseIdentifierKey">_NS:24</string>
@@ -6335,7 +6335,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">3763</int>
+			<int key="maxID">3766</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
