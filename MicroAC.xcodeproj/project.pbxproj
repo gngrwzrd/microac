@@ -32,6 +32,7 @@
 		07099D3B158EBE2400C2F935 /* warning_16.png in Resources */ = {isa = PBXBuildFile; fileRef = 07099D2A158EBE2400C2F935 /* warning_16.png */; };
 		07549F4C158EBFBF00C10318 /* QCOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 07549F48158EBF9600C10318 /* QCOperation.m */; };
 		07549F4D158EBFC000C10318 /* QCTableCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 07549F4A158EBF9600C10318 /* QCTableCellView.m */; };
+		07BD687C1591056200604411 /* Icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 07BD687B1591056200604411 /* Icon.icns */; };
 		07FB01A215904A6E00961BBA /* quickDrop.png in Resources */ = {isa = PBXBuildFile; fileRef = 07FB01A115904A6E00961BBA /* quickDrop.png */; };
 		07FB01A615905F5E00961BBA /* QCDragDropView.m in Sources */ = {isa = PBXBuildFile; fileRef = 07FB01A515905DB000961BBA /* QCDragDropView.m */; };
 /* End PBXBuildFile section */
@@ -71,6 +72,7 @@
 		07549F48158EBF9600C10318 /* QCOperation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = QCOperation.m; sourceTree = "<group>"; };
 		07549F49158EBF9600C10318 /* QCTableCellView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QCTableCellView.h; sourceTree = "<group>"; };
 		07549F4A158EBF9600C10318 /* QCTableCellView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = QCTableCellView.m; sourceTree = "<group>"; };
+		07BD687B1591056200604411 /* Icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = Icon.icns; path = QuickCaf/Icon.icns; sourceTree = SOURCE_ROOT; };
 		07FB01A115904A6E00961BBA /* quickDrop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = quickDrop.png; sourceTree = "<group>"; };
 		07FB01A415905DB000961BBA /* QCDragDropView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QCDragDropView.h; sourceTree = "<group>"; };
 		07FB01A515905DB000961BBA /* QCDragDropView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = QCDragDropView.m; sourceTree = "<group>"; };
@@ -140,6 +142,7 @@
 			children = (
 				07FB01A71590E08400961BBA /* MicroAC.entitlements */,
 				07099D12158EBD5E00C2F935 /* MainMenu.xib */,
+				07BD687B1591056200604411 /* Icon.icns */,
 				07FB01A115904A6E00961BBA /* quickDrop.png */,
 				07099D05158EBD5E00C2F935 /* MicroAC-Info.plist */,
 				07099D06158EBD5E00C2F935 /* InfoPlist.strings */,
@@ -263,6 +266,7 @@
 				07099D3A158EBE2400C2F935 /* Trash Empty.png in Resources */,
 				07099D3B158EBE2400C2F935 /* warning_16.png in Resources */,
 				07FB01A215904A6E00961BBA /* quickDrop.png in Resources */,
+				07BD687C1591056200604411 /* Icon.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -363,6 +367,8 @@
 		07099D18158EBD5E00C2F935 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = MicroAC.entitlements;
+				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "QuickCaf/MicroAC-Prefix.pch";
 				INFOPLIST_FILE = "QuickCaf/MicroAC-Info.plist";
@@ -376,6 +382,8 @@
 		07099D19158EBD5E00C2F935 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = MicroAC.entitlements;
+				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "QuickCaf/MicroAC-Prefix.pch";
 				INFOPLIST_FILE = "QuickCaf/MicroAC-Info.plist";
