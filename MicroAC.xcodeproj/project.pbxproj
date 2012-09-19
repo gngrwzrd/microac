@@ -367,7 +367,6 @@
 		07099D18158EBD5E00C2F935 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "QuickCaf/MicroAC-Prefix.pch";
 				INFOPLIST_FILE = "QuickCaf/MicroAC-Info.plist";
@@ -381,7 +380,6 @@
 		07099D19158EBD5E00C2F935 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "QuickCaf/MicroAC-Prefix.pch";
 				INFOPLIST_FILE = "QuickCaf/MicroAC-Info.plist";
