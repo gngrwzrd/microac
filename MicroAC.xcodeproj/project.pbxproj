@@ -140,27 +140,27 @@
 		07099D04158EBD5E00C2F935 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				07FB01A71590E08400961BBA /* MicroAC.entitlements */,
-				07099D12158EBD5E00C2F935 /* MainMenu.xib */,
-				07BD687B1591056200604411 /* Icon.icns */,
-				07FB01A115904A6E00961BBA /* quickDrop.png */,
-				07099D05158EBD5E00C2F935 /* MicroAC-Info.plist */,
-				07099D06158EBD5E00C2F935 /* InfoPlist.strings */,
-				07099D0C158EBD5E00C2F935 /* Credits.rtf */,
 				07099D1A158EBE2400C2F935 /* Add.png */,
 				07099D1B158EBE2400C2F935 /* bg.png */,
 				07099D1C158EBE2400C2F935 /* Clear Green Button.png */,
 				07099D1D158EBE2400C2F935 /* convertButton.png */,
+				07099D0C158EBD5E00C2F935 /* Credits.rtf */,
 				07099D1E158EBE2400C2F935 /* dropFiles.png */,
 				07099D1F158EBE2400C2F935 /* Error.png */,
+				07BD687B1591056200604411 /* Icon.icns */,
+				07099D06158EBD5E00C2F935 /* InfoPlist.strings */,
+				07099D12158EBD5E00C2F935 /* MainMenu.xib */,
+				07099D05158EBD5E00C2F935 /* MicroAC-Info.plist */,
+				07FB01A71590E08400961BBA /* MicroAC.entitlements */,
 				07099D20158EBE2400C2F935 /* OK.png */,
 				07099D21158EBE2400C2F935 /* pause.png */,
 				07099D22158EBE2400C2F935 /* play.png */,
 				07099D23158EBE2400C2F935 /* play2.png */,
+				07FB01A115904A6E00961BBA /* quickDrop.png */,
 				07099D24158EBE2400C2F935 /* refresh.png */,
 				07099D25158EBE2400C2F935 /* settingsError.png */,
-				07099D26158EBE2400C2F935 /* stop_alt.png */,
 				07099D27158EBE2400C2F935 /* stop2.png */,
+				07099D26158EBE2400C2F935 /* stop_alt.png */,
 				07099D28158EBE2400C2F935 /* tick_16.png */,
 				07099D29158EBE2400C2F935 /* Trash Empty.png */,
 				07099D2A158EBE2400C2F935 /* warning_16.png */,
@@ -367,12 +367,14 @@
 		07099D18158EBD5E00C2F935 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_ENTITLEMENTS = MicroAC.entitlements;
+				CODE_SIGN_IDENTITY = "Mac Developer: Aaron Smith (P2GQ2R9856)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "QuickCaf/MicroAC-Prefix.pch";
 				INFOPLIST_FILE = "QuickCaf/MicroAC-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = MicroAC;
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -380,12 +382,14 @@
 		07099D19158EBD5E00C2F935 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_ENTITLEMENTS = MicroAC.entitlements;
+				CODE_SIGN_IDENTITY = "Mac Developer: Aaron Smith (P2GQ2R9856)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "QuickCaf/MicroAC-Prefix.pch";
 				INFOPLIST_FILE = "QuickCaf/MicroAC-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = MicroAC;
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

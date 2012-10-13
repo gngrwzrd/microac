@@ -305,6 +305,9 @@
 	[_containerFormat addItemsWithTitles:[info objectForKey:@"extensions"]];
 	[_dataFormat removeAllItems];
 	[_dataFormat addItemsWithTitles:[info objectForKey:@"dataFormats"]];
+	
+	[_outputSameDir setState:0];
+	[self onDestinationSameAsSource:nil];
 }
 
 - (void) onQuickDrop:(NSNotification *) notification {
@@ -339,8 +342,9 @@
 	[op setConversionSampleRate:[_sampleRate stringValue]];
 	[op setConversionChannels:_channelsCountLabel.integerValue];
 	[op setFile:[files objectAtIndex:0]];
-	if(![_outputSameDir state]) [op setConversionOutputDirectory:[_outputDir stringValue]];
-	else [op setConversionOutputDirectory:nil];
+	//if(![_outputSameDir state]) [op setConversionOutputDirectory:[_outputDir stringValue]];
+	//else [op setConversionOutputDirectory:nil];
+	[op setConversionOutputDirectory:[_outputDir stringValue]];
 	
 	NSNotificationCenter * nfc = [NSNotificationCenter defaultCenter];
 	[nfc addObserver:self selector:@selector(onQuickDropComplete:) name:QCOperationComplete object:op];
@@ -457,8 +461,7 @@
 		[operation setConversionExtension:[_containerFormat selectedItem].title];
 		[operation setConversionSampleRate:[_sampleRate stringValue]];
 		[operation setConversionChannels:[_channelsCountLabel integerValue]];
-		if(![_outputSameDir state]) [operation setConversionOutputDirectory:[_outputDir stringValue]];
-		else [operation setConversionOutputDirectory:nil];
+		[operation setConversionOutputDirectory:[_outputDir stringValue]];
 		[operation invalidate];
 		if(!operation.isInQueue) {
 			[_workQueue addOperation:operation];
@@ -493,6 +496,7 @@
 	
 	//select which array of operations update
 	NSArray * workOperations = NULL;
+//	workOperations = _workOperations;
 	if(selectedRows.count > 0) {
 		workOperations = [_workOperations objectsAtIndexes:selectedRows];
 	} else {
@@ -511,15 +515,7 @@
 		[operation setConversionExtension:[_containerFormat selectedItem].title];
 		[operation setConversionSampleRate:[_sampleRate stringValue]];
 		[operation setConversionChannels:[_channelsCountLabel integerValue]];
-		if(![_outputSameDir state]) {
-			if(_outputDir.stringValue.length < 1) {
-				[operation setConversionOutputDirectory:[[_outputDir cell] placeholderString]];
-			} else {
-				[operation setConversionOutputDirectory:[_outputDir stringValue]];
-			}
-		} else {
-			[operation setConversionOutputDirectory:nil];
-		}
+		[operation setConversionOutputDirectory:[_outputDir stringValue]];
 		[operation invalidate];
 		if(!operation.isInQueue) {
 			[_workQueue addOperation:operation];
@@ -556,15 +552,7 @@
 	//update the operations
 	for(QCOperation * operation in workOperations) {
 		if(operation.isExecuting || operation.isFinished) continue;
-		if(![_outputSameDir state]) {
-			if(_outputDir.stringValue.length < 1) {
-				[operation setConversionOutputDirectory:[[_outputDir cell] placeholderString]];
-			} else {
-				[operation setConversionOutputDirectory:[_outputDir stringValue]];
-			}
-		} else {
-			[operation setConversionOutputDirectory:nil];
-		}
+		[operation setConversionOutputDirectory:[_outputDir stringValue]];
 		[operation invalidate];
 	}
 	
@@ -611,13 +599,7 @@
 }
 
 - (void) onOperationStart:(NSNotification *) notification {
-	//[_totalProgressLabel setStringValue:@"Running..."];
-}
-
-- (void) updateTotalProgress {
-	//double val = 100 - (100 / _workOperations.count);
-	//double val = 100 / _workOperations.count;
-	//[_totalProgress setDoubleValue:val];
+	
 }
 
 - (void) _onOperationComplete {
@@ -626,9 +608,6 @@
 }
 
 - (void) reloadTable:(NSTimer *) timer {
-	//NSLog(@"workQueue.operationCount: %li",_workQueue.operationCount);
-	//NSLog(@"tableView.numberOfRows: %li",_tableView.numberOfRows);
-	
 	if([_workQueue operationCount] < 1) {
 		[_workQueue setSuspended:TRUE];
 		if(_audioAlerts.state) [_glass play];
@@ -653,8 +632,6 @@
 		[_workOperationsLock unlock];
 		[_tableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:TRUE];
 	}
-	
-	[self updateTotalProgress];
 }
 
 - (IBAction) onChooseDirectory:(id) sender {
@@ -687,6 +664,14 @@
 }
 
 - (IBAction) onToolbarPlay:(id) sender {
+	if([[_outputDir stringValue] isEqualToString:@""]) {
+		NSAlert * alert = [[NSAlert alloc] init];
+		[alert setAlertStyle:NSInformationalAlertStyle];
+		[alert setMessageText:@"Destination not set"];
+		[alert setInformativeText:@"Set the destination field below before starting the queue."];
+		[alert runModal];
+		return;
+	}
 	if(_workQueue.operationCount < 1) return;
 	[_workQueue setSuspended:FALSE];
 	NSNotificationCenter * nfc = [NSNotificationCenter defaultCenter];
@@ -785,6 +770,7 @@
 		newOperation.conversionDataFormat = operation.conversionDataFormat;
 		newOperation.conversionSampleRate = operation.conversionSampleRate;
 		newOperation.conversionChannels = operation.conversionChannels;
+		newOperation.conversionOutputDirectory = operation.conversionOutputDirectory;
 		
 		//add new observers
 		[nfc addObserver:self selector:@selector(onOperationComplete:) name:QCOperationComplete object:newOperation];
@@ -880,24 +866,6 @@
 - (void) tableViewSelectionDidChange:(NSNotification *) notification {
 	NSIndexSet * indexes = [_tableView selectedRowIndexes];
 	
-	//no selection, update combo boxes back to what they were with no selections
-	/*
-	if(_selectedOperations && indexes.count < 1) {
-		[_targetFormat selectItemAtIndex:_noSelectionLastTypeIndex];
-		NSMutableDictionary * info = [_formats objectForKey:[_targetFormat selectedItem].title];
-		
-		[_containerFormat removeAllItems];
-		[_containerFormat addItemsWithTitles:[info objectForKey:@"extensions"]];
-		[_containerFormat selectItemAtIndex:_noSelectionLastContainerIndex];
-		if(_noSelectionLastContainerIndex > 0) [_containerFormat setEnabled:TRUE];
-		
-		[_dataFormat removeAllItems];
-		[_dataFormat addItemsWithTitles:[info objectForKey:@"dataFormats"]];
-		[_dataFormat selectItemAtIndex:_noSelectionLastDataFormatIndex];
-		if(_noSelectionLastDataFormatIndex > 0) [_dataFormat setEnabled:TRUE];
-	}
-	*/
-	
 	//1 item selected, update UI.
 	if(indexes.count == 1) {
 		NSInteger selectedIndex = [indexes firstIndex];
@@ -912,28 +880,12 @@
 		[_dataFormat addItemsWithTitles:[[operation conversionInfo] objectForKey:@"dataFormats"]];
 		[_dataFormat selectItemWithTitle:[operation conversionDataFormatLabel]];
 		
-		if([operation conversionOutputDirectory] && [operation conversionOutputDirectory].length > 0) {
-			[_outputDir setStringValue:[operation conversionOutputDirectory]];
-			[_outputSameDir setState:0];
-			[_outputDir setEnabled:TRUE];
-			[_outputChooseDir setEnabled:TRUE];
-			[_revealOutputDir setEnabled:TRUE];
-		} else {
-			[_outputSameDir setState:1];
-			[_outputDir setEnabled:FALSE];
-			[_outputChooseDir setEnabled:FALSE];
-			[_revealOutputDir setEnabled:FALSE];
-		}
+		[_outputDir setStringValue:[operation conversionOutputDirectory]];
+		[_outputSameDir setState:0];
+		[_outputDir setEnabled:TRUE];
+		[_outputChooseDir setEnabled:TRUE];
+		[_revealOutputDir setEnabled:TRUE];
 	}
-	
-	//update last NON SELECTION indexes
-	/*
-	if(!_selectedOperations || _selectedOperations.count < 1) {
-		_noSelectionLastContainerIndex = [_containerFormat indexOfSelectedItem];
-		_noSelectionLastDataFormatIndex = [_dataFormat indexOfSelectedItem];
-		_noSelectionLastTypeIndex = [_targetFormat indexOfSelectedItem];
-	}
-	*/
 	
 	//updated selected oprations
 	if(_selectedOperations) [_selectedOperations release];

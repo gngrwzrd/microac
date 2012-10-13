@@ -80,6 +80,12 @@
 		[_customLabel setStringValue:@"Waiting..."];
 	}
 	
+	if(_operation.conversionOutputDirectory.length < 1) {
+		[_customLabel setStringValue:@""];
+		[self setToolTip:@"Destination is not set."];
+		[self addSubview:_warning];
+	}
+	
 	if(_operation.isFinished && !_operation.isCancelled) {
 		[self addSubview:_check];
 		[_warning removeFromSuperview];
@@ -135,6 +141,7 @@
 }
 
 - (void) onOperationSettingsInvalid:(NSNotification *) notification {
+	NSLog(@"invalid!");
 	_validSettings = false;
 	[self invalidate];
 }

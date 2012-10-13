@@ -126,7 +126,7 @@ NSString * QCOperationQueueSuspendChange = @"QCOperationQueueSuspendChange";
 
 - (void) invalidate {
 	NSNotificationCenter * nfc = [NSNotificationCenter defaultCenter];
-	if(_conversionInfo && _conversionType && _conversionExtension && _conversionDataFormat) {
+	if(_conversionInfo && _conversionType && _conversionExtension && _conversionDataFormat && _conversionOutputDirectory) {
 		if(_conversionSampleRate) {
 			[nfc postNotificationName:QCOperationSettingsValid object:self];
 			return;
@@ -154,7 +154,8 @@ NSString * QCOperationQueueSuspendChange = @"QCOperationQueueSuspendChange";
 	if(_conversionOutputDirectory.length > 0) {
 		return [NSString stringWithFormat:@"Save To: %@",_conversionOutputDirectory];
 	}
-	return @"Save To: Same as source";
+	return @"Save To: Destination Not Set!";
+	//return @"Save To: Same as source";
 }
 
 - (void) dealloc {
