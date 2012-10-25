@@ -6,9 +6,5 @@
 	<true/>
 	<key>com.apple.security.files.user-selected.read-write</key>
 	<true/>
-	<key>com.apple.security.temporary-exception.files.absolute-path.read-only</key>
-	<array>
-		<string>/usr/bin/afconvert</string>
-	</array>
 </dict>
 </plist>
