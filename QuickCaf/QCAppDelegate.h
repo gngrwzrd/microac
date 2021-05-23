@@ -45,10 +45,13 @@
 	NSPopUpButton * _containerFormat;
 	NSPopUpButton * _dataFormat;
 	NSComboBox * _sampleRate;
+	NSComboBox * _bitRate;
 	NSButton * _outputSameDir;
 	NSTextField * _outputDir;
 	NSButton * _outputChoose;
 	NSButton * _revealOutputDir;
+	NSURL * _outputURL;
+	NSButton * _outputChooseDir;
 	
 	//channel
 	NSTextField * _channelsLabel;
@@ -57,6 +60,12 @@
 	
 	//options
 	NSButton * _audioAlerts;
+	NSButton * _appendCheckedToFilename;
+	
+	//accessory view
+	NSView * _accessoryView;
+	
+	NSToolbarItem * _convertButton;
 }
 
 @property (assign) IBOutlet NSWindow * window;
@@ -66,6 +75,7 @@
 @property (assign) IBOutlet NSPopUpButton * containerFormat;
 @property (assign) IBOutlet NSPopUpButton * dataFormat;
 @property (assign) IBOutlet NSComboBox * sampleRate;
+@property (assign) IBOutlet NSComboBox * bitRate;
 @property (assign) IBOutlet NSButton * outputSameDir;
 @property (assign) IBOutlet NSButton * outputChooseDir;
 @property (assign) IBOutlet NSButton * revealOutputDir;
@@ -78,6 +88,7 @@
 @property (assign) IBOutlet NSPopUpButton * targetFormat;
 @property (assign) IBOutlet NSToolbarItem * convertButton;
 @property (assign) IBOutlet NSButton * audioAlerts;
+@property (assign) IBOutlet NSButton * appendCheckedToFilename;
 @property (assign) IBOutlet NSTextField * concurrencyLabel;
 @property (assign) IBOutlet NSStepper * concurrencyStepper;
 @property (assign) IBOutlet NSTextField * quickDropLabel;
@@ -85,6 +96,7 @@
 @property (assign) IBOutlet QCDragDropView * quickDropView;
 @property (nonatomic,retain) IBOutlet NSView * quickDropViewContainer;
 @property (nonatomic,retain) IBOutlet NSImageView * quickDropBGImage;
+@property (nonatomic,retain) IBOutlet NSView * accessoryView;
 
 - (void) invalidateWorkQueue;
 

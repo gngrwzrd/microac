@@ -16,10 +16,12 @@ NSString * QCOperationQueueSuspendChange = @"QCOperationQueueSuspendChange";
 @synthesize conversionOutputDirectory = _conversionOutputDirectory;
 @synthesize conversionType = _conversionType;
 @synthesize conversionSampleRate = _conversionSampleRate;
+@synthesize conversionBitRate = _conversionBitRate;
 @synthesize conversionChannels = _conversionChannels;
 @synthesize conversionDataFormatLabel = _conversionDataFormatLabel;
 @synthesize queue = _queue;
 @synthesize isInQueue = _isInQueue;
+@synthesize appendChecked = _appendChecked;
 
 - (id) init {
 	if(!(self = [super init])) return nil;
@@ -40,6 +42,7 @@ NSString * QCOperationQueueSuspendChange = @"QCOperationQueueSuspendChange";
 	op->_conversionOutputDirectory = [_conversionOutputDirectory copy];
 	op->_conversionSampleRate = [_conversionSampleRate copy];
 	op->_conversionChannels = _conversionChannels;
+	op->_conversionBitRate = [_conversionBitRate copy];
 	return op;
 }
 
@@ -54,19 +57,28 @@ NSString * QCOperationQueueSuspendChange = @"QCOperationQueueSuspendChange";
 	
 	//pieces for custom outpur directory
 	NSString * fileName = [_file lastPathComponent];
-	NSArray * comps = [fileName componentsSeparatedByString:@"."];
-	NSString * fileNameNoExtension = [comps objectAtIndex:0];
+	//NSArray * comps = [fileName componentsSeparatedByString:@"."];
+	NSString * fileNameNoExtension = [fileName stringByDeletingPathExtension];
 	
 	//pieces for same directory output
-	NSArray * comp2 = [_file componentsSeparatedByString:@"."];
-	NSString * fileNameNoExtension2 = [comp2 objectAtIndex:0];
+	//NSArray * comp2 = [_file componentsSeparatedByString:@"."];
+	NSString * fileNameNoExtension2 = [_file stringByDeletingPathExtension];
 	
 	//assemble output dir
-	if(_conversionOutputDirectory.length > 0) {
-		outFile = [NSString stringWithFormat:@"%@/%@%@%@", _conversionOutputDirectory, fileNameNoExtension, @"_converted", newExtension];
+	if(_appendChecked) {
+		if(_conversionOutputDirectory.length > 0) {
+			outFile = [NSString stringWithFormat:@"%@/%@%@%@", _conversionOutputDirectory, fileNameNoExtension, @"_converted", newExtension];
+		} else {
+			outFile = [NSString stringWithFormat:@"%@%@%@", fileNameNoExtension2, @"_converted", newExtension];
+		}
 	} else {
-		outFile = [NSString stringWithFormat:@"%@%@%@", fileNameNoExtension2, @"_converted", newExtension];
+		if(_conversionOutputDirectory.length > 0) {
+			outFile = [NSString stringWithFormat:@"%@/%@%@", _conversionOutputDirectory, fileNameNoExtension, newExtension];
+		} else {
+			outFile = [NSString stringWithFormat:@"%@%@", fileNameNoExtension2, newExtension];
+		}
 	}
+	
 	outFile = [outFile stringByExpandingTildeInPath];
 	
 	//setup arguments
@@ -76,15 +88,18 @@ NSString * QCOperationQueueSuspendChange = @"QCOperationQueueSuspendChange";
 	[arguments addObject:@"-d"];
 	[arguments addObject:[NSString stringWithFormat:@"%@@%@",_conversionDataFormat, _conversionSampleRate]];
 	//[arguments addObject:[NSString stringWithFormat:@"%@",_conversionDataFormat]];
+	[arguments addObject:@"-b"];
+	long bitrate = (long)[_conversionBitRate integerValue] * 1000;
+	[arguments addObject:[NSString stringWithFormat:@"%lu",bitrate]];
 	if(_conversionChannels > 0) {
 		[arguments addObject:@"-c"];
-		[arguments addObject:[NSString stringWithFormat:@"%li",_conversionChannels]];
+		[arguments addObject:[NSString stringWithFormat:@"%lu",(long)_conversionChannels]];
 	}
 	[arguments addObject:_file];
 	[arguments addObject:outFile];
 	[_task setArguments:arguments];
 	
-	//NSLog(@"arguments: %@",arguments);
+	NSLog(@"arguments: %@",arguments);
 	
 	if(_cancelled) {
 		_isFinished = TRUE;
@@ -122,6 +137,12 @@ NSString * QCOperationQueueSuspendChange = @"QCOperationQueueSuspendChange";
 
 - (BOOL) isCancelled {
 	return _cancelled;
+}
+
+- (void) setConversionDataFormat:(NSString *) conversionDataFormat {
+	if(_conversionDataFormat) [_conversionDataFormat release];
+	_conversionDataFormat = [conversionDataFormat copy];
+	//NSLog(@"new data format: %@",conversionDataFormat);
 }
 
 - (void) invalidate {

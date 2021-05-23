@@ -16,6 +16,7 @@ extern NSString * QCOperationQueueSuspendChange;
 	BOOL _isExecuting;
 	BOOL _isFinished;
 	BOOL _isInQueue;
+	BOOL _appendChecked;
 		
 	NSOperationQueue * _queue;
 	NSTask * _task;
@@ -30,6 +31,7 @@ extern NSString * QCOperationQueueSuspendChange;
 	NSString * _conversionOutputDirectory;
 	NSString * _conversionSampleRate;
 	NSInteger _conversionChannels;
+	NSString * _conversionBitRate;
 }
 
 @property (nonatomic,assign) NSOperationQueue * queue;
@@ -41,8 +43,10 @@ extern NSString * QCOperationQueueSuspendChange;
 @property (nonatomic,copy) NSString * conversionDataFormatLabel;
 @property (nonatomic,copy) NSString * conversionOutputDirectory;
 @property (nonatomic,copy) NSString * conversionSampleRate;
+@property (nonatomic,copy) NSString * conversionBitRate;
 @property (nonatomic,retain) NSMutableDictionary * conversionInfo;
 @property (nonatomic,assign) BOOL isInQueue;
+@property (nonatomic,assign) BOOL appendChecked;
 
 - (void) invalidate;
 - (NSString *) shortFormatLabel;

@@ -222,6 +222,15 @@
 				CLASSPREFIX = QC;
 				LastUpgradeCheck = 0440;
 				ORGANIZATIONNAME = "Aaron Smith";
+				TargetAttributes = {
+					07099CF8158EBD5E00C2F935 = {
+						SystemCapabilities = {
+							com.apple.Sandbox = {
+								enabled = 0;
+							};
+						};
+					};
+				};
 			};
 			buildConfigurationList = 07099CF3158EBD5E00C2F935 /* Build configuration list for PBXProject "MicroAC" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -367,12 +376,14 @@
 		07099D18158EBD5E00C2F935 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CODE_SIGN_ENTITLEMENTS = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "QuickCaf/MicroAC-Prefix.pch";
 				INFOPLIST_FILE = "QuickCaf/MicroAC-Info.plist";
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = MicroAC;
-				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -380,12 +391,14 @@
 		07099D19158EBD5E00C2F935 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CODE_SIGN_ENTITLEMENTS = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "QuickCaf/MicroAC-Prefix.pch";
 				INFOPLIST_FILE = "QuickCaf/MicroAC-Info.plist";
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = MicroAC;
-				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

@@ -29,6 +29,9 @@
 @synthesize quickDropView = _quickDropView;
 @synthesize quickDropViewContainer = _quickDropViewContainer;
 @synthesize quickDropBGImage = _quickDropBGImage;
+@synthesize accessoryView = _accessoryView;
+@synthesize appendCheckedToFilename = _appendCheckedToFilename;
+@synthesize bitRate = _bitRate;
 
 - (void) windowWillClose:(NSNotification *) notification {
 	[[NSApplication sharedApplication] terminate:self];
@@ -333,6 +336,7 @@
 	QCOperation * op = [[[QCOperation alloc] init] autorelease];
 	op.queue = _quickQueue;
 	op.isInQueue = TRUE;
+	op.appendChecked = (_appendCheckedToFilename.state == NSOnState);
 	[op setConversionInfo:[_formats objectForKey:[_targetFormat selectedItem].title]];
 	[op setConversionExtension:[_containerFormat selectedItem].title];
 	
@@ -341,6 +345,7 @@
 	[op setConversionDataFormat:df];
 	[op setConversionSampleRate:[_sampleRate stringValue]];
 	[op setConversionChannels:_channelsCountLabel.integerValue];
+	[op setConversionBitRate:[_bitRate stringValue]];
 	[op setFile:[files objectAtIndex:0]];
 	//if(![_outputSameDir state]) [op setConversionOutputDirectory:[_outputDir stringValue]];
 	//else [op setConversionOutputDirectory:nil];
@@ -404,13 +409,17 @@
 	[self invalidateWorkQueue];
 }
 
+- (IBAction) onSampleRateChosen:(id)sender {
+	[self invalidateWorkQueue];
+}
+
 - (IBAction) onBitrateChosen:(id) sender {
 	[self invalidateWorkQueue];
 }
 
 - (IBAction) onConcurrencyChange:(id) sender {
 	[_workQueue setMaxConcurrentOperationCount:[_concurrencyStepper integerValue]];
-	[_concurrencyLabel setStringValue:[NSString stringWithFormat:@"%li",[_concurrencyStepper integerValue]]];
+	[_concurrencyLabel setStringValue:[NSString stringWithFormat:@"%li",(long)[_concurrencyStepper integerValue]]];
 }
 
 - (void) invalidateSettings {
@@ -448,6 +457,7 @@
 	for(NSString * filePath in acceptedFiles) {
 		operation = [[[QCOperation alloc] init] autorelease];
 		[_workOperations addObject:operation];
+		operation.appendChecked = (_appendCheckedToFilename.state == NSOnState);
 		[nfc addObserver:self selector:@selector(onOperationComplete:) name:QCOperationComplete object:operation];
 		[nfc addObserver:self selector:@selector(onOperationStart:) name:QCOperationStart object:operation];
 		[operation setFile:filePath];
@@ -457,9 +467,10 @@
 		[operation setConversionType:[_targetFormat stringValue]];
 		NSString * df = [[info objectForKey:@"dataFormatArguments"] objectAtIndex:selectedDataFormatIndex];
 		[operation setConversionDataFormat:df];
-		[operation setConversionDataFormatLabel:[_dataFormat selectedItem] .title];
+		[operation setConversionDataFormatLabel:[_dataFormat selectedItem].title];
 		[operation setConversionExtension:[_containerFormat selectedItem].title];
 		[operation setConversionSampleRate:[_sampleRate stringValue]];
+		[operation setConversionBitRate:[_bitRate stringValue]];
 		[operation setConversionChannels:[_channelsCountLabel integerValue]];
 		[operation setConversionOutputDirectory:[_outputDir stringValue]];
 		[operation invalidate];
@@ -516,6 +527,7 @@
 		[operation setConversionSampleRate:[_sampleRate stringValue]];
 		[operation setConversionChannels:[_channelsCountLabel integerValue]];
 		[operation setConversionOutputDirectory:[_outputDir stringValue]];
+		[operation setConversionBitRate:[_bitRate stringValue]];
 		[operation invalidate];
 		if(!operation.isInQueue) {
 			[_workQueue addOperation:operation];
@@ -638,11 +650,23 @@
 	NSOpenPanel * open = [NSOpenPanel openPanel];
 	[open setCanChooseDirectories:TRUE];
 	[open setCanChooseFiles:FALSE];
+	//[open setAccessoryView:_accessoryView];
 	[open beginSheetModalForWindow:self.window completionHandler:^(NSInteger result) {
 		if(result) {
+			//NSLog(@"%@",[open URL]);
+			
+			if(_outputURL) {
+				[_outputURL stopAccessingSecurityScopedResource];
+			}
+			
+			_outputURL = [[open URL] retain];
+			[_outputURL startAccessingSecurityScopedResource];
+			
 			[_outputDir setObjectValue:[[open directoryURL] path]];
 			//[self invalidateWorkQueue];
 			[self invalidateOutputDirectory];
+		} else {
+			
 		}
 	}];
 }
@@ -764,10 +788,16 @@
 		newOperation.queue =_workQueue;
 		newOperation.isInQueue = TRUE;
 		newOperation.file = operation.file;
+		newOperation.appendChecked = (_appendCheckedToFilename.state == NSOnState);
 		newOperation.conversionInfo = operation.conversionInfo;
 		newOperation.conversionType = operation.conversionType;
 		newOperation.conversionExtension = operation.conversionExtension;
+		newOperation.conversionBitRate = operation.conversionBitRate;
+		
+		//NSLog(@"conversionDataFormat! %@",operation.conversionDataFormat);
+		
 		newOperation.conversionDataFormat = operation.conversionDataFormat;
+		newOperation.conversionDataFormatLabel = operation.conversionDataFormatLabel;
 		newOperation.conversionSampleRate = operation.conversionSampleRate;
 		newOperation.conversionChannels = operation.conversionChannels;
 		newOperation.conversionOutputDirectory = operation.conversionOutputDirectory;
@@ -792,6 +822,14 @@
 	
 	[_workOperationsLock unlock];
 	[_tableView reloadData];
+}
+
+- (IBAction) onAppendCheckedFilename:(id)sender {
+	[_workOperationsLock lock];
+	for (QCOperation * operation in _workOperations) {
+		operation.appendChecked = (_appendCheckedToFilename.state == NSOnState);
+	}
+	[_workOperationsLock unlock];
 }
 
 - (BOOL) validateToolbarItem:(NSToolbarItem *) theItem {
@@ -870,6 +908,9 @@
 	if(indexes.count == 1) {
 		NSInteger selectedIndex = [indexes firstIndex];
 		QCOperation * operation = [_workOperations objectAtIndex:selectedIndex];
+		
+		operation.appendChecked = (_appendCheckedToFilename.state == NSOnState);
+		
 		[_targetFormat selectItemWithTitle:[[operation conversionInfo] objectForKey:@"description"]];
 		
 		[_containerFormat removeAllItems];
@@ -878,6 +919,9 @@
 		
 		[_dataFormat removeAllItems];
 		[_dataFormat addItemsWithTitles:[[operation conversionInfo] objectForKey:@"dataFormats"]];
+		
+		//NSLog(@"select: ! %@, %@",operation.conversionDataFormat,operation.conversionDataFormatLabel);
+		
 		[_dataFormat selectItemWithTitle:[operation conversionDataFormatLabel]];
 		
 		[_outputDir setStringValue:[operation conversionOutputDirectory]];
@@ -902,6 +946,7 @@
 }
 
 - (void) dealloc {
+	[_outputURL stopAccessingSecurityScopedResource];
     [super dealloc];
 }
 
